@@ -1,8 +1,8 @@
-@extends("layouts.application")
+@extends("layouts.application_gallery")
 @section("content")
   <article class="row">
     <h2>{!! $gallery->title !!}</h2>
-    <div>{!! $gallery->content !!}</div>
+    <img src="{{ asset('/upload_image/'.$gallery->id.'/'.$gallery->url) }}"/>
   </article>
   <div>
   {!! Form::open(array('route' => array('galleries.destroy', $gallery->id), 'method' => 'delete')) !!}

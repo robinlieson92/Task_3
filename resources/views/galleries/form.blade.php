@@ -11,7 +11,7 @@
 <div class="form-group">
   {!! Form::label('image', 'Image', array('class' => 'col-lg-3 control-label')) !!}
   <div class="col-lg-9">
-    {!! Form::file('url', null, array('multiple'=>"")) !!}
+    {!! Form::file('urlimage', null, array('multiple'=>"")) !!}
     {!! Form::text(null, null, array('class' => 'form-control', 'placeholder'=>"Browse ...",
     'readonly'=>"")) !!}
     <div class="text-danger">{!! $errors->first('url') !!}</div>

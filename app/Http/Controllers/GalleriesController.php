@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
 use App\Gallery;
-
 use App\Http\Requests\GalleryRequest;
-
+use Validator;
+use File;
 use Session;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class GalleriesController extends Controller
 {
@@ -44,9 +43,43 @@ class GalleriesController extends Controller
      */
     public function store(GalleryRequest $request)
     {
-        Gallery::create($request->all());
-        Session::flash("notice", "Gallery success created");
-        return redirect()->route("galleries.index");
+        $validation = Validator::make($request->all(), [
+            'title'     => 'required',
+            'urlimage'  => 'required|image|mimes:jpeg,png,jpg'
+            ]);
+        
+        if ($validation->fails() ){
+            return redirect()->back()->withInput()
+                             ->with('errors',$validation->errors() );
+        }
+        else {
+            $gallery = new Gallery;
+            $gallery->title = $request->input('title');
+            
+            $image = $request->file('urlimage');
+            
+            if ($request->file('urlimage')->isValid() )
+                {
+                    $path = $request->urlimage->path(); 
+                    $imagename = $image->getClientOriginalName();
+                    //$file->move('public/uploads', $file->getClientOriginalName());
+
+                    $gallery->url ="ori_".$imagename;
+                    $gallery->thumbnail ="thumb_".$imagename;
+                    $gallery->showimage ="show_".$imagename;
+                    $gallery->save();
+                    $directory = public_path()."/upload_image/".$gallery->id;
+
+                    if(!File::exists($directory)){
+                        File::makeDirectory($directory,$mode=0777,true,true);
+                    }
+                    Image::make($image)->save($directory."/ori_".$imagename);
+                    Image::make($image)->resize('200','100')->save($directory."/thumb_".$imagename);
+                    Image::make($image)->resize('600','300')->save($directory."/show_".$imagename);
+                    Session::flash("notice", "Gallery success created");
+                    return redirect()->route("galleries.index");
+                }
+        }
         
     }
 
@@ -60,7 +93,7 @@ class GalleriesController extends Controller
     {
         $galleries = Gallery::find($id);
         return view('galleries.show')
-        ->with('galleries', $galleries);
+        ->with('gallery', $galleries);
     }
 
     /**
@@ -73,7 +106,7 @@ class GalleriesController extends Controller
     {
         $galleries = Gallery::find($id);
         return view('galleries.edit')
-        ->with('galleries', $galleries);
+        ->with('gallery', $galleries);
     }
 
     /**

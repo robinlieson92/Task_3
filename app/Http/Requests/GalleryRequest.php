@@ -23,9 +23,9 @@ class GalleryRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->gallery;
+        //$id = $this->gallery;
         return [
-            'title' => 'required|unique:galleries,title,'.$id.'|max:255',
+            'title' => 'required|max:255',
         ];
     }
 

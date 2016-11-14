@@ -1,4 +1,4 @@
-@extends("layouts.application")
+@extends("layouts.application_gallery")
 @section("content")
   <div class="row">
     <h2 class="pull-left">List Gallery</h2>

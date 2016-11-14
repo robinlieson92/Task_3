@@ -1,22 +1,26 @@
-body{
-
-    padding-top: 50px;
-
-    background-color: #ffffff;
-
-  }
-
-.navbar {
-	background-color: #009688;
+.grid {
+  background: #DDD;
 }
 
-.navbar-default .navbar-header {
-  color: white;
+/* clear fix */
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
-.navbar-default .navbar-brand {
-  color: white;
+/* ---- .grid-item ---- */
+
+.grid-sizer,
+.grid-item {
+  width: 100%;
 }
 
-.navbar-default .navbar-nav > li > a {
-  color: white;
+.grid-item {
+  float: left;
+}
+
+.grid-item img {
+  display: block;
+  max-width: 100%;
+}

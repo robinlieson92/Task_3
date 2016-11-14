@@ -1,9 +1,10 @@
+<div class="grid">
+	<div class="grid-sizer">
+
 @foreach($galleries as $gallery)
-<article class="row">
-  <h1>{!!$gallery->title!!}</h1>
-  <p>
-    {!! str_limit($gallery->content, 250) !!}
-    {!! link_to(route('galleries.show', $gallery->id), 'Read More') !!}
-  </p>
-</article>
+	<div class="grid-item">
+	<img src="{{ asset('/upload_image/'.$gallery->id.'/'.$gallery->thumbnail) }}"/>
+	</div>
 @endforeach
+	</div>
+</div>
