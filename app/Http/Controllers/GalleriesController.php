@@ -72,13 +72,14 @@ class GalleriesController extends Controller
     {
         $validation = Validator::make($request->all(), [
             'title'     => 'required',
-            'urlimage'  => 'required|image|mimes:jpeg,png,jpg'
+            'urlimage'  => 'required|image|mimes:jpeg,png,jpg|max:200'
             ]);
         if ($validation->fails() ){
             return redirect()->back()->withInput()
                              ->with('errors',$validation->errors() );
         }
         else {
+            
             $gallery = new Gallery;
             GalleriesController::save_image($gallery,$request); 
             Session::flash("notice", "Gallery success created");
@@ -124,7 +125,7 @@ class GalleriesController extends Controller
     {
         $validation = Validator::make($request->all(), [
             'title'     => 'required',
-            'urlimage'  => 'required|image|mimes:jpeg,png,jpg'
+            'urlimage'  => 'required|image|mimes:jpeg,png,jpg|max:200'
             ]);
         if ($validation->fails() ){
             return redirect()->back()->withInput()
