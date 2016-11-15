@@ -35,6 +35,33 @@ class GalleriesController extends Controller
         return view('galleries.create');
     }
 
+    public static function save_image($gallery, $req)
+    {
+        $gallery->title = $req->input('title');
+        
+        $image = $req->file('urlimage');
+        
+        if ($req->file('urlimage')->isValid() )
+            {
+                $path = $req->urlimage->path(); 
+                $imagename = $image->getClientOriginalName();
+                //$file->move('public/uploads', $file->getClientOriginalName());
+
+                $gallery->url ="ori_".$imagename;
+                $gallery->thumbnail ="thumb_".$imagename;
+                $gallery->showimage ="show_".$imagename;
+                $gallery->save();
+                $directory = public_path()."/upload_image/".$gallery->id;
+
+                if(!File::exists($directory)){
+                    File::makeDirectory($directory,$mode=0777,true,true);
+                }
+                Image::make($image)->save($directory."/ori_".$imagename);
+                Image::make($image)->resize('200','100')->save($directory."/thumb_".$imagename);
+                Image::make($image)->resize('600','300')->save($directory."/show_".$imagename);
+            }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -47,38 +74,15 @@ class GalleriesController extends Controller
             'title'     => 'required',
             'urlimage'  => 'required|image|mimes:jpeg,png,jpg'
             ]);
-        
         if ($validation->fails() ){
             return redirect()->back()->withInput()
                              ->with('errors',$validation->errors() );
         }
         else {
             $gallery = new Gallery;
-            $gallery->title = $request->input('title');
-            
-            $image = $request->file('urlimage');
-            
-            if ($request->file('urlimage')->isValid() )
-                {
-                    $path = $request->urlimage->path(); 
-                    $imagename = $image->getClientOriginalName();
-                    //$file->move('public/uploads', $file->getClientOriginalName());
-
-                    $gallery->url ="ori_".$imagename;
-                    $gallery->thumbnail ="thumb_".$imagename;
-                    $gallery->showimage ="show_".$imagename;
-                    $gallery->save();
-                    $directory = public_path()."/upload_image/".$gallery->id;
-
-                    if(!File::exists($directory)){
-                        File::makeDirectory($directory,$mode=0777,true,true);
-                    }
-                    Image::make($image)->save($directory."/ori_".$imagename);
-                    Image::make($image)->resize('200','100')->save($directory."/thumb_".$imagename);
-                    Image::make($image)->resize('600','300')->save($directory."/show_".$imagename);
-                    Session::flash("notice", "Gallery success created");
-                    return redirect()->route("galleries.index");
-                }
+            GalleriesController::save_image($gallery,$request); 
+            Session::flash("notice", "Gallery success created");
+            return redirect()->route("galleries.index");
         }
         
     }
@@ -116,11 +120,32 @@ class GalleriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GalleryRequest $request, $id)
     {
-        Gallery::find($id)->update($request->all());
-        Session::flash("notice", "Gallery success updated");
-        return redirect()->route("galleries.show", $id);
+        $validation = Validator::make($request->all(), [
+            'title'     => 'required',
+            'urlimage'  => 'required|image|mimes:jpeg,png,jpg'
+            ]);
+        if ($validation->fails() ){
+            return redirect()->back()->withInput()
+                             ->with('errors',$validation->errors() );
+        }
+        else{
+            $gallery = Gallery::find($id);
+            //delete file
+            $path1 = public_path()."/upload_image/".$gallery->id."/".$gallery->url;
+            $path2 = public_path()."/upload_image/".$gallery->id."/".$gallery->showimage;
+            $path3 = public_path()."/upload_image/".$gallery->id."/".$gallery->thumbnail;
+            
+            File::delete($path1);
+            File::delete($path2);
+            File::delete($path3);
+
+            //save image
+            GalleriesController::save_image($gallery,$request);
+            Session::flash("notice", "Gallery success updated");
+            return redirect()->route("galleries.show", $id);
+        }   
     }
 
     /**
@@ -131,6 +156,8 @@ class GalleriesController extends Controller
      */
     public function destroy($id)
     {
+        $directory = public_path()."/upload_image/".$id;
+        File::deleteDirectory($directory);
         Gallery::destroy($id);
         Session::flash("notice", "Gallery success deleted");
         return redirect()->route("galleries.index");

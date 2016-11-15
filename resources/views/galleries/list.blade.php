@@ -1,10 +1,9 @@
 <div class="grid">
-	<div class="grid-sizer">
 
 @foreach($galleries as $gallery)
 	<div class="grid-item">
-	<img src="{{ asset('/upload_image/'.$gallery->id.'/'.$gallery->thumbnail) }}"/>
+		<a href="{!! route('galleries.show', $gallery->id) !!}">
+		{!! HTML::image('/upload_image/'.$gallery->id.'/'.$gallery->thumbnail) !!}</a>
 	</div>
 @endforeach
-	</div>
 </div>

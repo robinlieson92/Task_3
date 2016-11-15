@@ -4,7 +4,7 @@
       <link href="/assets/css/bootstrap/bootstrap.css" rel="stylesheet" />
       <link href="/assets/css/material-design/bootstrap-material-design.css" rel="stylesheet" />
       <link href="/assets/css/material-design/ripples.css" rel="stylesheet" />
-      <!--link href="/assets/css/custom/layout.css" rel="stylesheet" /-->
+      <link href="/assets/css/custom/layout.css" rel="stylesheet" />
     </head>
     <body style="padding-top:60px;">
       <!--bagian navigation-->

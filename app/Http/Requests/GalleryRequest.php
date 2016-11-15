@@ -26,6 +26,7 @@ class GalleryRequest extends FormRequest
         //$id = $this->gallery;
         return [
             'title' => 'required|max:255',
+            'urlimage' => 'required',
         ];
     }
 
@@ -33,7 +34,7 @@ class GalleryRequest extends FormRequest
     {
         return [
             'title.required' => 'Title is required, at least fill a character',
-            'title.unique' => 'Title must unique, take another title'
+            'urlimage.required' => 'Image is required, please upload a picture',
         ];
     }
 }
