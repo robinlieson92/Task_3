@@ -6,14 +6,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      {!! HTML::image('/riku.jpg',null,['width' => '40px', 'style' => 'padding-top:5px']) !!}
+      {!! HTML::image('/logo.png',null,['class' => 'navbar-brand']) !!}
       {!! link_to(route('root'), "Laravel Training", ['class' => 'navbar-brand']) !!}
     </div>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
     <ul class="nav navbar-nav navbar-right">
-      <li>{!! link_to(route('root'), "Home") !!}</li>
-      <li>{!! link_to(route('galleries.index'), "Gallery") !!}</li>
-      <li>{!! link_to(route('articles.index'), "Article") !!}</li>
+      <li>{!! link_to(route('root'), " Home", ['class' => 'glyphicon glyphicon-home']) !!}</li>
+      <li>{!! link_to(route('galleries.index'), " Gallery", ['class' => 'glyphicon glyphicon-camera']) !!}</li>
+      <li>{!! link_to(route('articles.index'), " Article", ['class' => 'glyphicon glyphicon-list-alt']) !!}</li>
     </ul>
     </div>
   </div>

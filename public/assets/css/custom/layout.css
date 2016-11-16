@@ -5,6 +5,14 @@ font-family: sans-serif;
 padding-top:60px;
 }
 
+.navbar-brand > img {
+	float: left;
+	width: 80px;
+	padding-top: 8px;
+}
+
+
+
 /* ---- grid ---- */
 
 .grid {
