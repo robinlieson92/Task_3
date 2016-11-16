@@ -6,9 +6,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      {!! link_to(route('root'), "Robin Lieson", ['class' => 'navbar-brand']) !!}
+      {!! HTML::image('/riku.jpg',null,['width' => '40px', 'style' => 'padding-top:5px']) !!}
+      {!! link_to(route('root'), "Laravel Training", ['class' => 'navbar-brand']) !!}
     </div>
-    <div class="navbar-collapse navbar-responsive-collapse">
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
     <ul class="nav navbar-nav navbar-right">
       <li>{!! link_to(route('root'), "Home") !!}</li>
       <li>{!! link_to(route('galleries.index'), "Gallery") !!}</li>
