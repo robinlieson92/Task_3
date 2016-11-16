@@ -79,7 +79,7 @@ class GalleriesController extends Controller
                              ->with('errors',$validation->errors() );
         }
         else {
-            
+            dd($request->urlimage);
             $gallery = new Gallery;
             GalleriesController::save_image($gallery,$request); 
             Session::flash("notice", "Gallery success created");
@@ -132,6 +132,7 @@ class GalleriesController extends Controller
                              ->with('errors',$validation->errors() );
         }
         else{
+            dd($request->urlimage);
             $gallery = Gallery::find($id);
             //delete file
             $path1 = public_path()."/upload_image/".$gallery->id."/".$gallery->url;
