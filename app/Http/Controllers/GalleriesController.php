@@ -70,10 +70,7 @@ class GalleriesController extends Controller
      */
     public function store(GalleryRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'title'     => 'required',
-            'urlimage'  => 'required|image|mimes:jpeg,png,jpg|max:200'
-            ]);
+        $validation = Validator::make($request->all());
         if ($validation->fails() ){
             return redirect()->back()->withInput()
                              ->with('errors',$validation->errors() );
@@ -122,10 +119,7 @@ class GalleriesController extends Controller
      */
     public function update(GalleryRequest $request, $id)
     {
-        $validation = Validator::make($request->all(), [
-            'title'     => 'required',
-            'urlimage'  => 'required|image|mimes:jpeg,png,jpg|max:200'
-            ]);
+        $validation = Validator::make($request->all());
         if ($validation->fails() ){
             return redirect()->back()->withInput()
                              ->with('errors',$validation->errors() );
