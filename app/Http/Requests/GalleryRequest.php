@@ -25,7 +25,7 @@ class GalleryRequest extends FormRequest
     {
         //$id = $this->gallery;
         return [
-            'title' => 'required|max:255',
+            'title' => 'required|max:255|min:2',
             'urlimage' => 'required|max:200|image|mimes:jpeg,png,jpg',
         ];
     }
@@ -34,6 +34,8 @@ class GalleryRequest extends FormRequest
     {
         return [
             'title.required' => 'Title is required, at least fill a character',
+            'title.max' => 'Title must be less than 255 character',
+            'title.min' => 'Title must be more than 2 character',
             'urlimage.required' => 'Image is required, please upload a picture',
             'urlimage.max' => 'The Image may not be greater than 200KB',
             'urlimage.image' => 'The File must be image / picture',
