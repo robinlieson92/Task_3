@@ -70,17 +70,17 @@ class GalleriesController extends Controller
      */
     public function store(GalleryRequest $request)
     {
-        $validation = Validator::make($request->all());
+        /*$validation = Validator::make($request->all());
         if ($validation->fails() ){
             return redirect()->back()->withInput()
                              ->with('errors',$validation->errors() );
         }
-        else {
+        else {*/
             $gallery = new Gallery;
             GalleriesController::save_image($gallery,$request); 
             Session::flash("notice", "Gallery success created");
             return redirect()->route("galleries.index");
-        }
+        //}
         
     }
 
@@ -119,12 +119,12 @@ class GalleriesController extends Controller
      */
     public function update(GalleryRequest $request, $id)
     {
-        $validation = Validator::make($request->all());
+        /*$validation = Validator::make($request->all());
         if ($validation->fails() ){
             return redirect()->back()->withInput()
                              ->with('errors',$validation->errors() );
         }
-        else{
+        else{*/
             $gallery = Gallery::find($id);
             //delete file
             $path1 = public_path()."/upload_image/".$gallery->id."/".$gallery->url;
@@ -139,7 +139,7 @@ class GalleriesController extends Controller
             GalleriesController::save_image($gallery,$request);
             Session::flash("notice", "Gallery success updated");
             return redirect()->route("galleries.show", $id);
-        }   
+        //}   
     }
 
     /**
